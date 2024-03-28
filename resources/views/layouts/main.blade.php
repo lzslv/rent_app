@@ -25,6 +25,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('post.index')}}">Сдать квартиру</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.index')}}">Админ</a>
+                    </li>
                 </ul>
             </div>
         </div>

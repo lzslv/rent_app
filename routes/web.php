@@ -22,4 +22,9 @@ Route::patch('post/{post}', [PostController::class, 'update'])->name('post.updat
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index');
+Route::get('/admin/landlords', [App\Http\Controllers\AdminController::class, 'landlords'])->name('admin.landlords');
+Route::get('/admin/renters', [App\Http\Controllers\AdminController::class, 'renters'])->name('admin.renters');
+Route::get('/admin/users', [App\Http\Controllers\AdminController::class, 'users'])->name('admin.users');
+
+
