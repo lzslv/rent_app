@@ -1,14 +1,21 @@
-@extends('layouts.main')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
-    <h2>Hello</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    {{ __('Вы вошли') }}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<div><h4>Весь список (?ваших) объявлений</h4></div>
-
-@foreach($allPosts as $post)
-    <div><a href="{{route('post.show', $post)}}">{{$post->id . ". " . $post->title . " | " . "Тип: " . $post->type . " | " . "Оценка: " . $post->likes }}</a></div>
-@endforeach
-
 @endsection

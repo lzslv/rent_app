@@ -28,14 +28,6 @@
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-        <!-- Left navbar links -->
-        <ul class="navbar-nav">
-            <li class="nav-item d-none d-sm-inline-block">
-                <a class="nav-link" href="{{route('home.index')}}">Домой</a>
-            </li>
-        </ul>
-    </nav>
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
@@ -51,27 +43,17 @@
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
-                    <li class="nav-header">Роли</li>
                     <li class="nav-item">
-                        <a href="{{route('admin.landlords')}}" class="nav-link">
+                        <a href="{{route('admin.post')}}" class="nav-link">
                             <p>
-                                Арендодатели
+                                Посты
                             </p>
                         </a>
                     </li>
-
                     <li class="nav-item">
-                        <a href="{{route('admin.renters')}}" class="nav-link">
+                        <a href="{{route('admin.user')}}" class="nav-link">
                             <p>
-                                Арендаторы
-                            </p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{route('admin.users')}}" class="nav-link">
-                            <p>
-                                Все роли
+                                Пользователи
                             </p>
                         </a>
                     </li>

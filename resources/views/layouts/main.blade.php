@@ -20,9 +20,6 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('home.index')}}">Домой</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{route('post.index')}}">Сдать квартиру</a>
                     </li>
                     <li class="nav-item">
