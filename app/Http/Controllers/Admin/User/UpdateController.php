@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UpdateController extends Controller
 {
@@ -15,7 +16,9 @@ class UpdateController extends Controller
             'name' => 'string',
             'email' => 'string',
             'password' => 'string',
+            'role' => 'int',
         ]);
+        $data['password'] = Hash::make($data['password']);
         $user->update($data);
         return redirect()->route('admin.user.show', compact('user', 'name'));
     }

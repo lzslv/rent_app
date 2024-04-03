@@ -20,6 +20,17 @@
             <input type="password" name="password" class="form-control" id="password" value="{{$user->password}}">
         </div>
 
+        <div class="mb-3">
+            <label for="role" class="form-label">Роль</label>
+            <select name="role" class="form-control">
+                @foreach($roles as  $id => $role)
+                    <option value="{{$id}}"
+                        {{$id = $user->role ? ' selected' : ''}}>
+                        {{$role}}
+                    </option>
+                @endforeach
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Обновить</button>
     </form>
 

@@ -30,12 +30,30 @@
     <!-- Navbar -->
     <!-- /.navbar -->
 
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+
+
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ms-auto">
+                <!-- Authentication Links -->
+                <form action="{{route('logout')}}" method="post">
+                    @csrf
+                    <input type="submit" value="Выйти" class="btn btn-outline-primary">
+                </form>
+
+            </ul>
+
+        </ul>
+    </nav>
+
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="{{route('admin.index')}}" class="brand-link">
             <span class="brand-text font-weight-light">Admin</span>
         </a>
+
 
         <!-- Sidebar -->
         <div class="sidebar">

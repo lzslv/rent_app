@@ -5,7 +5,7 @@
         <div class="card-body">
             <h5 class="card-title">{{$user->name}}</h5>
             <p class="card-text">Email: {{$user->email}}</p>
-            <p class="card-text">Роль: </p>
+            <p class="card-text">Роль: {{$roles[$user->role]}}</p>
             <div><a href="{{route('admin.user.edit', $user)}}">Редактировать</a></div>
             <form action="{{route('admin.user.destroy', $user)}}" method="post">
                 @csrf

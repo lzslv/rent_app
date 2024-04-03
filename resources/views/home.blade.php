@@ -18,4 +18,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    setTimeout(function() {
+        window.location.href = '/post';
+    }, 2000); // задержка в 2 секунды
+</script>
 @endsection
+

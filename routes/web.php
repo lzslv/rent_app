@@ -23,7 +23,7 @@ Route::get('post/{post}/edit', [PostController::class, 'edit'])->name('post.edit
 Route::patch('post/{post}', [PostController::class, 'update'])->name('post.update');
 
 
-Route::get('/admin', [IndexController::class, '__invoke'])->name('admin.index');
+Route::get('/admin', [IndexController::class, '__invoke'])->name('admin.index')->middleware('auth', 'admin');
 
 Route::get('/admin/post', [IndexController::class, '__invoke'])->name('admin.post');
 Route::get('admin/post/create', [CreateController::class, '__invoke'])->name('admin.post.create');
