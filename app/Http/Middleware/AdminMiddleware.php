@@ -20,6 +20,8 @@ class AdminMiddleware
             return $next($request);
         }
 
-        return redirect()->route('login');
+        $redirectRoute = auth()->check() ? 'post.index' : 'login';
+
+        return redirect()->route($redirectRoute);
     }
 }
