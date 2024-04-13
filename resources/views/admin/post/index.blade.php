@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 @section('content')
     <div class="ml-3 mr-3">
-        <a class="btn btn-primary" href="{{route('admin.post.create')}}" role="button">Добавить объявление</a>
+        <a class="btn btn-primary" href="{{ route('admin.post.create') }}" role="button">Добавить объявление</a>
+        <a class="btn btn-success" href="{{ route('admin.post') }}" role="button">Показать все</a>
 
         <div class="row mt-3">
             <div class="col-12">
@@ -10,14 +11,19 @@
                         <h3 class="card-title">Список объявлений</h3>
 
                         <div class="card-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="table_search" class="form-control float-right" placeholder="Поиск">
-
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-default">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
+                            <div class="input-group input-group-sm" style="width: 180px;">
+                                <form action="{{ route('post.search') }}" method="POST" style="display: flex">
+                                    @csrf
+                                    <div>
+                                        <input type="text" name="searched_post_title" class="form-control float-right"
+                                               placeholder="Поиск">
+                                    </div>
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -74,5 +75,18 @@ class PostController extends Controller
     {
         $post->delete();
         return redirect()->route('post.index');
+    }
+
+    public function search(Request $request)
+    {
+        $name = 'Посты';
+
+        $allPosts = $request->get('searched_post_title')
+            ? Post::where('title', $request->get('searched_post_title'))->get()
+            : Post::get();
+
+        $view = auth()->user()->role === User::ROLE_ADMIN ? 'admin.post.index' : 'post.index';
+
+        return view($view, compact('allPosts', 'name'));
     }
 }
