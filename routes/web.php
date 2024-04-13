@@ -21,6 +21,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('post/{post}', [PostController::class, 'show'])->name('post.show');
     Route::get('post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::patch('post/{post}', [PostController::class, 'update'])->name('post.update');
+    Route::post('post/search', [PostController::class, 'search'])->name('post.search');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
