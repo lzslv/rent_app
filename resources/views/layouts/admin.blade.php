@@ -37,11 +37,14 @@
         <ul class="navbar-nav ml-auto">
             <ul class="navbar-nav ms-auto">
                 <!-- Authentication Links -->
+                <a href="{{route('post.index')}}"class="btn btn-primary">Назад</a>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <!-- Authentication Links -->
                 <form action="{{route('logout')}}" method="post">
                     @csrf
                     <input type="submit" value="Выйти" class="btn btn-outline-primary">
                 </form>
-
             </ul>
 
         </ul>

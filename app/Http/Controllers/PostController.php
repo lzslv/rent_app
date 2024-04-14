@@ -37,6 +37,7 @@ class PostController extends Controller
             'landlord_email' => 'string',
             'landlord_phone' => 'int',
         ]);
+        $data['user_id'] = auth()->id();
         Post::create($data);
         return redirect()->route('post.index');
     }
@@ -67,6 +68,7 @@ class PostController extends Controller
             'landlord_email' => 'string',
             'landlord_phone' => 'int',
         ]);
+        $data['user_id'] = auth()->id();
         $post->update($data);
         return redirect()->route('post.show', $post);
     }

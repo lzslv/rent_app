@@ -23,7 +23,7 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Личный кабинет</a>
+                    <a class="nav-link" href="{{route('user.index')}}">Личный кабинет</a>
                 </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('post.create')}}">Сдать квартиру</a>

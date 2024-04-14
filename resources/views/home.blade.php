@@ -22,7 +22,7 @@
 <script>
     setTimeout(function() {
         window.location.href = '/post';
-    }, 2000); // задержка в 2 секунды
+    }, 1000);
 </script>
 @endsection
 

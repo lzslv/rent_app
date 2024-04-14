@@ -1,25 +1,44 @@
 @extends('layouts.main')
+
 @section('content')
+    <div class="container-fluid">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="content-box p-4 d-flex align-items-center">
+                    <!-- Изображение слева -->
+                    <div class="me-3" style="max-width: 50%;">
+                        <img src="{{ $post->picture }}" class="img-fluid mb-3" alt="{{ $post->title }}">
+                    </div>
 
-    <div class="card" style="width: 18rem;">
-        <img src="{{$post->picture}}" class="card-img-top" alt="{{$post->picture}}">
-        <div class="card-body">
-            <h5 class="card-title">{{$post->title}}</h5>
-            <p class="card-text">Тип: {{$post->type}}</p>
-            <p class="card-text">Комнат: {{$post->rooms}}. Квадратура: {{$post->size}}</p>
-            <p class="card-text">{{$post->description}}</p>
-            <p class="card-text">Цена: {{$post->price}}</p>
-            <p class="card-text">Адрес: {{$post->city}}, {{$post->region}} регион/область, {{$post->address}}</p>
-            <p class="card-text">Связь: {{$post->landlord_email}}, +{{$post->landlord_phone}}</p>
-            <p class="card-text">Оценка: {{$post->likes}}</p>
-            <div><a href="{{route('post.edit', $post)}}">Редактировать</a></div>
-            <form action="{{route('post.destroy', $post)}}" method="post">
-                @csrf
-                @method('delete')
-                <input type="submit" value="Удалить" class="btn btn-danger">
-            </form>
+                    <!-- Информация и кнопки справа -->
+                    <div>
+                        <h2 class="text-center">{{ $post->title }}</h2>
+                        <p class="text-center">Тип: {{ $post->type }}</p>
+                        <p class="text-center">Комнат: {{ $post->rooms }}. Квадратура: {{ $post->size }}</p>
+                        <p>{{ $post->description }}</p>
+                        <p>Цена: {{ $post->price }}</p>
+                        <p>Адрес: {{ $post->city }}, {{ $post->region }} регион/область, {{ $post->address }}</p>
+                        <p>Связь: {{ $post->landlord_email }}, +{{ $post->landlord_phone }}</p>
+                        <p>Оценка: {{ $post->likes }}</p>
+                        <div class="text-center">
 
-            <a class="btn btn-primary" href="{{route('post.index')}}" role="button">Назад</a>
+                            @if($post->user_id === auth()->user()->id)
+                                <a href="{{ route('post.edit', $post) }}" class="btn btn-primary">Редактировать</a>
+                            @endif
+
+                            @if($post->user_id === auth()->user()->id)
+                                <form action="{{ route('post.destroy', $post) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Удалить</button>
+                                </form>
+                            @endif
+
+                            <a href="{{ route('post.index') }}" class="btn btn-secondary">Назад</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
