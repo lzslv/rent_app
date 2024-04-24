@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -42,8 +43,12 @@ class PostController extends Controller
         return redirect()->route('post.index');
     }
 
-    public function show(Post $post) {
-        return view('post.show', compact('post'));
+    public function show(Post $post)
+    {
+        $filePathExploded = explode('/', $post->file);
+        $fileName = end($filePathExploded);
+
+        return view('post.show', compact('post', 'fileName'));
     }
 
     public function edit(Post $post)
@@ -90,5 +95,23 @@ class PostController extends Controller
         $view = auth()->user()->role === User::ROLE_ADMIN ? 'admin.post.index' : 'post.index';
 
         return view($view, compact('allPosts', 'name'));
+    }
+
+    /**
+     * @param string $filename
+     * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function downloadFile(string $filename)
+    {
+        $disk = Storage::disk('public');
+        $filepath = $disk->path('/documents/' . $filename);
+
+        if ($disk->exists('/documents/' . $filename)) {
+            return response()->download($filepath, 'document.pdf', [
+                'Content-Type: application/pdf'
+            ]);
+        }
+
+        return back(); // Temporary realization
     }
 }

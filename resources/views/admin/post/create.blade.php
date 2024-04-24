@@ -3,7 +3,7 @@
     <div class="ml-3 mr-3">
         <h3>Выложить объявление</h3>
 
-        <form action="{{route('admin.post.store')}}" method="post">
+        <form action="{{route('admin.post.store')}}" method="post" enctype="multipart/form-data">
             @csrf
 
 
@@ -40,12 +40,12 @@
 
             <div class="mb-3">
                 <label for="picture" class="form-label">Ссылка на изображение</label>
-                <input type="text" name="picture" class="form-control" id="picture">
+                <input type="file" name="picture" class="form-control" id="picture">
             </div>
 
             <div class="mb-3">
                 <label for="file" class="form-label">Ссылка на PDF-файл</label>
-                <input type="text" name="file" class="form-control" id="file">
+                <input type="file" name="file" class="form-control" id="file">
             </div>
 
             <div class="mb-3">

@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="card">
-                    <img src="{{ $post->picture }}" class="card-img-top" alt="{{ $post->picture }}">
+                    <img src="{{ url($post->picture) }}" class="card-img-top" alt="{{ $post->picture }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ $post->title }}</h5>
                         <p class="card-text">Тип: {{ $post->type }}</p>

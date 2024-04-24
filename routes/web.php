@@ -23,6 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::patch('post/{post}', [PostController::class, 'update'])->name('post.update');
     Route::post('post/search', [PostController::class, 'search'])->name('post.search');
+    Route::post('post/document/{filepath}', [PostController::class, 'downloadFile'])->name('post.file.download');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {

@@ -34,7 +34,15 @@
                                 </form>
                             @endif
 
-                            <a href="{{ route('post.index') }}" class="btn btn-secondary">Назад</a>
+                            <div style="display: flex; gap: 20px;">
+                                <form action="{{ route('post.file.download', $fileName) }}" method="post">
+                                    @csrf
+
+                                    <input type="submit" value="Скачать документ" class="btn btn-dark">
+                                </form>
+
+                                <a href="{{ route('post.index') }}" class="btn btn-secondary">Назад</a>
+                            </div>
                         </div>
                     </div>
                 </div>
