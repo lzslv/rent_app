@@ -32,10 +32,26 @@
                         <table class="table table-hover text-nowrap">
                             <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Название</th>
-                                <th>Тип</th>
-                                <th>Оценка</th>
+                                <th>
+                                    <a href="{{ route('admin.post.sort', ['id', $directions['id'] ?? 'desc']) }}">
+                                        ID
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="{{ route('admin.post.sort', ['title', $directions['title'] ?? 'desc']) }}">
+                                        Название
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="{{ route('admin.post.sort', ['type', $directions['type'] ?? 'desc']) }}">
+                                        Тип
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="{{ route('admin.post.sort', ['likes', $directions['likes'] ?? 'desc']) }}">
+                                        Оценка
+                                    </a>
+                                </th>
                             </tr>
                             </thead>
                             <tbody>

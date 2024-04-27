@@ -34,9 +34,10 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin', [IndexController::class, '__invoke'])->name('admin.index');
+    Route::get('/admin', [IndexController::class, 'index'])->name('admin.index');
 
-    Route::get('/admin/post', [IndexController::class, '__invoke'])->name('admin.post');
+    Route::get('/admin/post', [IndexController::class, 'index'])->name('admin.post');
+    Route::get('/admin/post/sort/{field}/{direction}', [IndexController::class, 'sort'])->name('admin.post.sort');
     Route::get('admin/post/create', [CreateController::class, '__invoke'])->name('admin.post.create');
     Route::post('admin/post/create', [StoreController::class, '__invoke'])->name('admin.post.store');
     Route::delete('admin/post/{post}/destroy', [DestroyController::class, '__invoke'])->name('admin.post.destroy');
