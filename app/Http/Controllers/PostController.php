@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -47,8 +48,10 @@ class PostController extends Controller
     {
         $filePathExploded = explode('/', $post->file);
         $fileName = end($filePathExploded);
+        $reviews = Review::where('post_id', $post->id)->get();
+        $averageRating = $reviews->avg('rating');
 
-        return view('post.show', compact('post', 'fileName'));
+        return view('post.show', compact('post', 'fileName', 'reviews', 'averageRating'));
     }
 
     public function edit(Post $post)

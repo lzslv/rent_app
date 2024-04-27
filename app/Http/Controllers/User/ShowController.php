@@ -8,14 +8,13 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class IndexController extends Controller
+class ShowController extends Controller
 {
     public function __invoke(User $user)
     {
+        $posts = Post::where('user_id', $user->id)->get();
+        $name = 'Личный кабинет';
 
-        $posts = $user->posts()->get();
-
-        // Передаем данные в представление
         return view('user.show', compact('posts', 'user'));
     }
 }

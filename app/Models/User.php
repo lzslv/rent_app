@@ -8,8 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable
 {
+
+    public $timestamps = true;
     use HasApiTokens, HasFactory, Notifiable;
 
     const ROLE_ADMIN = 0;

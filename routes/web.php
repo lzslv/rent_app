@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Post\UpdateController;
 use App\Http\Controllers\Admin\StatisticsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('post/{post}', [PostController::class, 'show'])->name('post.show');
     Route::get('post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::patch('post/{post}', [PostController::class, 'update'])->name('post.update');
+
+    Route::post('post/{post}/review/create', [ReviewController::class, 'store'])->name('post.review.store');
+    Route::delete('post/{post}/review/{review}/destroy', [ReviewController::class, 'destroy'])->name('post.review.destroy');
+    Route::get('post/{post}/review/{review}/edit', [ReviewController::class, 'edit'])->name('post.review.edit');
+    Route::patch('post/{post}/review/{review}', [ReviewController::class, 'update'])->name('post.review.update');
+
     Route::post('post/search', [PostController::class, 'search'])->name('post.search');
     Route::post('post/document/{filepath}', [PostController::class, 'downloadFile'])->name('post.file.download');
 });
@@ -51,10 +58,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->name('admin.user.edit');
     Route::patch('admin/user/{user}', [\App\Http\Controllers\Admin\User\UpdateController::class, '__invoke'])
         ->name('admin.user.update');
-    Route::get('/admin/statistics', StatisticsController::class)->name('admin.statistics');
+    // Route::get('/admin/statistics', StatisticsController::class)->name('admin.statistics');
 });
 
-Route::get('/user', \App\Http\Controllers\User\IndexController::class)->name('user.index');
+Route::get('/home', \App\Http\Controllers\User\IndexController::class)->name('home.index');
+Route::get('/user/{user}', [\App\Http\Controllers\User\ShowController::class, '__invoke'])->name('user.show');
 
 Auth::routes();
 
