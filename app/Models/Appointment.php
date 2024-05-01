@@ -6,22 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Post extends Model
+class Appointment extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
     public $timestamps = true;
-    protected $table = 'posts';
+    protected $table = 'appointments';
     protected $guarded = [];
 
-    public function reviews()
+    public function post()
     {
-        return $this->hasMany(Review::class);
+        return $this->belongsTo(Post::class);
     }
 
-    public function appointments()
+    public function user()
     {
-        return $this->hasMany(Appointment::class);
+        return $this->belongsTo(User::class);
     }
 }

@@ -2,18 +2,6 @@
 
 @section('content')
 
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
     <div class="container-fluid">
         <div class="row justify-content-center mt-5">
             <div class="col-md-8">
@@ -41,7 +29,6 @@
                         <p>Цена: {{ $post->price }}</p>
                         <p>Адрес: {{ $post->city }}, {{ $post->region }} регион/область, {{ $post->address }}</p>
                         <p>Связь: {{ $post->landlord_email }}, +{{ $post->landlord_phone }}</p>
-                        <p>Оценка: {{ $post->likes }}</p>
                         <div class="text-center">
 
                             @if($post->user_id === auth()->user()->id)
@@ -69,57 +56,92 @@
                     </div>
                 </div>
 
-                <h3>Отзывы</h3>
                 @if(auth()->check() && $post->user_id !== auth()->id())
-                    <h5>Напишите отзыв:</h5>
-                    <form action="{{ route('post.review.store', ['post' => $post->id]) }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="text" class="form-label">Текст отзыва</label>
-                            <textarea class="form-control" id="text" name="text" rows="3" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="rating" class="form-label">Оценка (от 1 до 5)</label>
-                            <input type="number" class="form-control" id="rating" name="rating" min="1" max="5"
-                                   required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Добавить отзыв</button>
-                    </form>
-                @endif
-                @foreach($reviews as $review)
-                    <div class="card mb-3">
-                        <div class="card-body d-flex justify-content-between align-items-start">
-                            <div>
-                                <a class="mb-0" href="{{ route('user.show', $review->user) }}"
-                                   class="btn btn-primary mr-2">{{ $review->user->name }}</a>
-                                <div class="stars">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        @if ($i <= $review->rating)
-                                            ★ <!-- Символ звезды -->
-                                        @else
-                                            ☆ <!-- Символ пустой звезды -->
-                                        @endif
-                                    @endfor
+                    <div class="container-fluid">
+                        <div class="row justify-content-center mt-5">
+                            <!-- Кнопка для отображения формы -->
+                            <button id="showFormBtn" class="btn btn-primary">Записаться на просмотр</button>
+
+                            <!-- Форма записи на просмотр -->
+                            <form id="appointmentForm" style="display: none;" method="POST" action="{{route('post.appointment.store',  ['post' => $post->id])}}">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="date">Дата и время:</label>
+                                    <input type="datetime-local" id="date" name="date" class="form-control" required>
                                 </div>
-                                <blockquote class="blockquote mt-3">
-                                    <p class="mb-0">{{ $review->text }}</p>
-                                </blockquote>
-                            </div>
-                            @if(auth()->check() && $review->user_id === auth()->id())
-                                <div class="d-flex">
-                                    <a href="{{ route('post.review.edit', [$post, $review]) }}"
-                                       class="btn btn-primary mr-2">Редактировать</a>
-                                    <form action="{{ route('post.review.destroy', [$post, $review]) }}"
-                                          method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Удалить</button>
-                                    </form>
+
+                                <div class="form-group">
+                                    <label for="note">Примечание:</label>
+                                    <textarea id="note" name="note" class="form-control"></textarea>
                                 </div>
-                            @endif
+
+                                <button type="submit" class="btn btn-success">Отправить</button>
+                            </form>
                         </div>
                     </div>
-                @endforeach
+
+                    <!-- Скрипт для отображения/скрытия формы и отправки данных на сервер -->
+                    <script>
+                        document.getElementById('showFormBtn').addEventListener('click', function () {
+                            document.getElementById('appointmentForm').style.display = 'block';
+                        });
+                    </script>
+                @endif
+
+                <div class="container mt-5 p-3 card">
+                    <h3>Отзывы</h3>
+                    @if(auth()->check() && $post->user_id !== auth()->id())
+                        <h5>Напишите отзыв:</h5>
+                        <form action="{{ route('post.review.store', ['post' => $post->id]) }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="text" class="form-label">Текст отзыва</label>
+                                <textarea class="form-control" id="text" name="text" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="rating" class="form-label">Оценка (от 1 до 5)</label>
+                                <input type="number" class="form-control" id="rating" name="rating" min="1" max="5"
+                                       required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Добавить отзыв</button>
+                        </form>
+                    @endif
+                    @foreach($reviews as $review)
+                        <div class="card mb-3">
+                            <div class="card-body d-flex justify-content-between align-items-start">
+                                <div>
+                                    <a class="mb-0" href="{{ route('user.show', $review->user) }}"
+                                       class="btn btn-primary mr-2">{{ $review->user->name }}</a>
+                                    <div class="stars">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= $review->rating)
+                                                ★ <!-- Символ звезды -->
+                                            @else
+                                                ☆ <!-- Символ пустой звезды -->
+                                            @endif
+                                        @endfor
+                                    </div>
+                                    <blockquote class="blockquote mt-3">
+                                        <p class="mb-0">{{ $review->text }}</p>
+                                    </blockquote>
+                                </div>
+                                @if(auth()->check() && $review->user_id === auth()->id())
+                                    <div class="d-flex">
+                                        <a href="{{ route('post.review.edit', [$post, $review]) }}"
+                                           class="btn btn-primary mr-2">Редактировать</a>
+                                        <form action="{{ route('post.review.destroy', [$post, $review]) }}"
+                                              method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Удалить</button>
+                                        </form>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
             </div>
         </div>
     </div>

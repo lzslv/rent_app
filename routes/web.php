@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\Post\StoreController;
 use App\Http\Controllers\Admin\Post\UpdateController;
 
 use App\Http\Controllers\Admin\StatisticsController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReviewController;
@@ -28,6 +29,11 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('post/{post}/review/{review}/destroy', [ReviewController::class, 'destroy'])->name('post.review.destroy');
     Route::get('post/{post}/review/{review}/edit', [ReviewController::class, 'edit'])->name('post.review.edit');
     Route::patch('post/{post}/review/{review}', [ReviewController::class, 'update'])->name('post.review.update');
+
+    Route::post('post/{post}/appointment/create', [AppointmentController::class, 'store'])->name('post.appointment.store');
+    Route::delete('post/{post}/appointment/{appointment}/destroy', [AppointmentController::class, 'destroy'])->name('post.appointment.destroy');
+    Route::get('post/{post}/appointment/{appointment}/edit', [AppointmentController::class, 'edit'])->name('post.appointment.edit');
+    Route::patch('post/{post}/appointment/{appointment}', [AppointmentController::class, 'update'])->name('post.appointment.update');
 
     Route::post('post/search', [PostController::class, 'search'])->name('post.search');
     Route::post('post/document/{filepath}', [PostController::class, 'downloadFile'])->name('post.file.download');
@@ -62,7 +68,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Route::get('/admin/statistics', StatisticsController::class)->name('admin.statistics');
 });
 
-Route::get('/home', \App\Http\Controllers\User\IndexController::class)->name('home.index');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', \App\Http\Controllers\User\IndexController::class)->name('home.index');
+    Route::delete('home/appointment/{appointment}/destroy', [AppointmentController::class, 'destroy'])->name('home.appointment.destroy');
+    Route::get('home/appointment/{appointment}/edit', [AppointmentController::class, 'edit'])->name('home.appointment.edit');
+    Route::patch('home/appointment/{appointment}', [AppointmentController::class, 'update'])->name('home.appointment.update');
+
+});
 Route::get('/user/{user}', [\App\Http\Controllers\User\ShowController::class, '__invoke'])->name('user.show');
 
 Auth::routes();
