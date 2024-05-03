@@ -24,9 +24,6 @@ final class KufarScrapper
         $posts = $html->find('.styles_wrapper__Q06m9');
 
         foreach ($posts as $key => $post) {
-            $kufarPosts[$key]['link'] = $post->href; // Post link extracting
-            $kufarPosts[$key]['image_src'] = $post->find('img', 0)?->src; // Image src extracting
-
             $plaintext = $post->plaintext; // Content text receiving
 
             // BYN price extracting
@@ -34,6 +31,9 @@ final class KufarScrapper
             if (strlen($priceBynSubstr) > 8 || !preg_match('~[0-9]+~', $priceBynSubstr)) {
                 continue;
             }
+
+            $kufarPosts[$key]['link'] = $post->href; // Post link extracting
+            $kufarPosts[$key]['image_src'] = $post->find('img', 0)?->src; // Image src extracting
 
             $kufarPosts[$key]['price_byn'] = str_replace(' ', '', $priceBynSubstr) . ' р.';
             $plaintext = str_replace($priceBynSubstr . 'р.', '', $plaintext);
