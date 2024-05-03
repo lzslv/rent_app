@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('post_id');
-            $table->boolean('approved')->default('false');
+            $table->boolean('approved')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
