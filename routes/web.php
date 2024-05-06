@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Post\UpdateController;
 use App\Http\Controllers\Admin\StatisticsController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ThirdPartyPostController;
@@ -28,17 +29,23 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('post/{post}', [PostController::class, 'update'])->name('post.update');
 
     Route::post('post/{post}/review/create', [ReviewController::class, 'store'])->name('post.review.store');
-    Route::delete('post/{post}/review/{review}/destroy', [ReviewController::class, 'destroy'])->name('post.review.destroy');
+    Route::delete('post/{post}/review/{review}/destroy', [ReviewController::class, 'destroy'])
+        ->name('post.review.destroy');
     Route::get('post/{post}/review/{review}/edit', [ReviewController::class, 'edit'])->name('post.review.edit');
     Route::patch('post/{post}/review/{review}', [ReviewController::class, 'update'])->name('post.review.update');
 
-    Route::post('post/{post}/appointment/create', [AppointmentController::class, 'store'])->name('post.appointment.store');
-    Route::delete('post/{post}/appointment/{appointment}/destroy', [AppointmentController::class, 'destroy'])->name('post.appointment.destroy');
-    Route::get('post/{post}/appointment/{appointment}/edit', [AppointmentController::class, 'edit'])->name('post.appointment.edit');
-    Route::patch('post/{post}/appointment/{appointment}', [AppointmentController::class, 'update'])->name('post.appointment.update');
+    Route::post('post/{post}/appointment/create', [AppointmentController::class, 'store'])
+        ->name('post.appointment.store');
+    Route::delete('post/{post}/appointment/{appointment}/destroy', [AppointmentController::class, 'destroy'])
+        ->name('post.appointment.destroy');
+    Route::get('post/{post}/appointment/{appointment}/edit', [AppointmentController::class, 'edit'])
+        ->name('post.appointment.edit');
+    Route::patch('post/{post}/appointment/{appointment}', [AppointmentController::class, 'update'])
+        ->name('post.appointment.update');
 
     Route::post('post/search', [PostController::class, 'search'])->name('post.search');
     Route::post('post/document/{filepath}', [PostController::class, 'downloadFile'])->name('post.file.download');
+    Route::get('job/{id?}', [JobController::class, 'index'])->name('job.index');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -69,7 +76,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->name('admin.user.update');
     // Route::get('/admin/statistics', StatisticsController::class)->name('admin.statistics');
 });
-
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', \App\Http\Controllers\User\IndexController::class)->name('home.index');
