@@ -15,6 +15,7 @@
           href="{{asset('https://code.ionicframework.com/ionicons/AdminLTE Logo2.0.1/css/ionicons.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <!--
 `body` tag options:
@@ -72,13 +73,26 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('post.kufar') }}" class="nav-link">
+                            <p>
+                                Сторонние объявления
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{route('admin.user')}}" class="nav-link">
                             <p>
                                 Пользователи
                             </p>
                         </a>
                     </li>
-
+                    <li class="nav-item">
+                        <a href="{{ route('job.index') }}" class="nav-link">
+                            <p>
+                                Должности
+                            </p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -123,8 +137,7 @@
 
 <!-- OPTIONAL SCRIPTS -->
 <script src="plugins/chart.js/Chart.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
+
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard3.js"></script>
 </body>

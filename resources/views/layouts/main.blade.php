@@ -25,9 +25,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('home.index')}}">Личный кабинет</a>
                 </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('post.create')}}">Сдать квартиру</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('post.create')}}">Сдать квартиру</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Список должностей
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        @foreach ($jobs as $job)
+                            <a class="dropdown-item" href="{{ route('job.index', $job->id) }}">{{ $job->title }}</a>
+                        @endforeach
+                    </div>
+                </li>
                 @php
                     use App\Models\User;
                 @endphp
@@ -82,5 +93,10 @@
 <div>
     @yield('content')
 </div>
+
+<script src="{{ asset('plugins/jquery/jquery.js') }}"></script>
+<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('dist/js/adminlte.js') }}"></script>
+
 </body>
 </html>
