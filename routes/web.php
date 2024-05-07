@@ -23,6 +23,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('post/create', [PostController::class, 'create'])->name('post.create');
     Route::post('post/create', [PostController::class, 'store'])->name('post.store');
     Route::get('post/kufar', [ThirdPartyPostController::class, 'index'])->name('post.kufar');
+    Route::get('post/recommendations', [PostController::class, 'recommendations'])->name('post.recommendations');
     Route::delete('post/{post}/destroy', [PostController::class, 'destroy'])->name('post.destroy');
     Route::get('post/{post}', [PostController::class, 'show'])->name('post.show');
     Route::get('post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');

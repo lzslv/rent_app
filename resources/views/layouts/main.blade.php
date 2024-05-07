@@ -39,6 +39,9 @@
                         @endforeach
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('post.recommendations') }}">Рекомендации</a>
+                </li>
                 @php
                     use App\Models\User;
                 @endphp

@@ -117,4 +117,11 @@ class PostController extends Controller
 
         return back(); // Temporary realization
     }
+
+    public function recommendations()
+    {
+        $recommendedPosts = Post::get();
+
+        return view('home.recommendations')->with('name', 'Рекомендации')->with('recommendedPosts', $recommendedPosts);
+    }
 }
