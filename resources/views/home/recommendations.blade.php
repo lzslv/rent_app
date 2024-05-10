@@ -1,47 +1,43 @@
 @extends('layouts.admin')
 @section('content')
-    <div class="ml-3 mr-3">
-
-        @foreach($recommendedPosts as $recommendedPost)
-            <div class="row mt-3">
-                <div class="col-2"></div>
-                <div class="col-8">
+    <div class="mt-4 mb-4 text-center"><h4>Весь список объявлений</h4></div>
+    <div class="container">
+        <div class="row">
+            @foreach($recommendedPosts as $post)
+                <div class="col-md-6 col-lg-4 mb-4">
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle"
-                                     src="{{ url($recommendedPost->picture) }}"
-                                     alt="Фото">
+                                <img class="img-fluid"
+                                     src="{{ url($post->picture) }}"
+                                     alt="Фото"
+                                     style="height: 40vh; object-fit: cover;">
                             </div>
 
-                            <h3 class="profile-username text-center">{{ $recommendedPost->title }}</h3>
-
-                            <p class="text-muted text-center">{{ $recommendedPost->description }}</p>
-
+                            <h3 class="profile-username text-center">{{ $post->title }}</h3>
+                            <p class="text-muted text-center">{{ $post->description }}</p>
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
-                                    <b>Тип</b> <a class="float-right">{{ $recommendedPost->type }}</a>
+                                    <b>Тип</b> <a class="float-right">{{ $post->type }}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Количество комнат</b> <a class="float-right">{{ $recommendedPost->rooms }}</a>
+                                    <b>Количество комнат</b> <a class="float-right">{{ $post->rooms }}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Стоимость (USD)</b> <a class="float-right">{{ $recommendedPost->price }}</a>
+                                    <b>Стоимость (USD)</b> <a class="float-right">{{ $post->price }}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Квадратура (м²)</b> <a class="float-right">{{ $recommendedPost->size }}</a>
+                                    <b>Квадратура (м²)</b> <a class="float-right">{{ $post->size }}</a>
                                 </li>
                             </ul>
-
-                            <a href="{{ route('post.show', $recommendedPost->id) }}" class="btn btn-primary btn-block">
+                            <a href="{{ route('post.show', $post->id) }}" class="btn btn-primary btn-block">
                                 <b>Подробнее</b>
                             </a>
                         </div>
                         <!-- /.card-body -->
                     </div>
                 </div>
-            </div>
-        @endforeach
-
+            @endforeach
+        </div>
     </div>
 @endsection

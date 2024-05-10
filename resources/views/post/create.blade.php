@@ -39,18 +39,20 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="picture" class="form-label">Ссылка на изображение</label>
-                        <input type="text" name="picture" class="form-control" id="picture">
-                    </div>
-
-                    <div class="mb-3">
                         <label for="file" class="form-label">Ссылка на PDF-файл</label>
                         <input type="text" name="file" class="form-control" id="file">
                     </div>
 
                     <div class="mb-3">
-                        <label for="region" class="form-label">Регион</label>
-                        <input type="text" name="region" class="form-control" id="region">
+                        <label for="region" class="form-label">Область</label>
+                        <select name="region" class="form-select" id="region">
+                            <option value="Минская">Минская</option>
+                            <option value="Витебская">Витебская</option>
+                            <option value="Гомельская">Гомельская</option>
+                            <option value="Гродненская">Гродненская</option>
+                            <option value="Могилевская">Могилевская</option>
+                            <option value="Брестская">Бресткая</option>
+                        </select>
                     </div>
 
                     <div class="mb-3">
@@ -65,12 +67,18 @@
 
                     <div class="mb-3">
                         <label for="landlord_email" class="form-label">Электронная почта</label>
-                        <input type="text" name="landlord_email" class="form-control" id="landlord_email" required>
+                        <input type="email" name="landlord_email" class="form-control" id="landlord_email" required>
+                        <div class="invalid-feedback">
+                            Пожалуйста, введите корректный адрес электронной почты.
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="landlord_phone" class="form-label">Телефон</label>
-                        <input type="text" name="landlord_phone" class="form-control" id="landlord_phone" required>
+                        <input type="tel" name="landlord_phone" class="form-control" id="landlord_phone" pattern="^\+375\d{9}$" required>
+                        <div class="invalid-feedback">
+                            Пожалуйста, введите корректный белорусский номер телефона в формате +375XXXXXXXXX.
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Выложить</button>

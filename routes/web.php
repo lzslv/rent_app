@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\StatisticsController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\PictureController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ThirdPartyPostController;
@@ -28,6 +29,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('post/{post}', [PostController::class, 'show'])->name('post.show');
     Route::get('post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::patch('post/{post}', [PostController::class, 'update'])->name('post.update');
+
+    Route::post('post/{post}/picture/create', [PictureController::class, 'store'])
+        ->name('post.picture.store');
+    Route::get('post/{post}/picture/create', [PictureController::class, 'create'])
+        ->name('post.picture.create');
 
     Route::post('post/{post}/review/create', [ReviewController::class, 'store'])->name('post.review.store');
     Route::delete('post/{post}/review/{review}/destroy', [ReviewController::class, 'destroy'])

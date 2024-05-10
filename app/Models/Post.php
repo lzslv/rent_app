@@ -24,4 +24,9 @@ class Post extends Model
     {
         return $this->hasMany(Appointment::class);
     }
+
+    public function pictures()
+    {
+        return $this->hasMany(Picture::class);
+    }
 }

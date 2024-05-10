@@ -5,10 +5,31 @@
     <div class="container-fluid">
         <div class="row justify-content-center mt-5">
             <div class="col-md-8">
-                <div class="content-box p-4 d-flex align-items-center">
+                <div class="content-box p-4 d-flex">
                     <!-- Изображение слева -->
                     <div class="me-3" style="max-width: 50%;">
-                        <img src="{{ $post->picture }}" class="img-fluid mb-3" alt="{{ $post->title }}">
+                        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                @foreach($post->pictures as $key => $picture)
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $key }}" class="{{ $key === 0 ? 'active' : '' }}" aria-current="true" aria-label="Slide {{ $key }}"></button>
+                                @endforeach
+                            </div>
+                            <div class="carousel-inner">
+                                @foreach($post->pictures as $key => $picture)
+                                    <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                                        <img src="{{ $picture->data }}" class="d-block w-100" alt="{{ $post->title }}">
+                                    </div>
+                                @endforeach
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Информация и кнопки справа -->
@@ -27,33 +48,32 @@
                         <p class="text-center">Комнат: {{ $post->rooms }}. Квадратура: {{ $post->size }}</p>
                         <p>{{ $post->description }}</p>
                         <p>Цена: {{ $post->price }}</p>
-                        <p>Адрес: {{ $post->city }}, {{ $post->region }} регион/область, {{ $post->address }}</p>
+                        <a href="#" onclick="viewOnMap('{{ $post->address }}')">Адрес: {{ $post->city }}, {{ $post->region }} регион/область, {{ $post->address }}</a>
                         <p>Связь: {{ $post->landlord_email }}, +{{ $post->landlord_phone }}</p>
+
                         <div class="text-center">
-
                             @if($post->user_id === auth()->user()->id)
-                                <a href="{{ route('post.edit', $post) }}" class="btn btn-primary">Редактировать</a>
+                                <div class="d-flex">
+                                    <a href="{{ route('post.edit', $post) }}" class="btn btn-primary me-2">Редактировать</a>
+
+                                    <form action="{{ route('post.destroy', $post) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger me-2">Удалить</button>
+                                    </form>
+                                </div>
                             @endif
 
-                            @if($post->user_id === auth()->user()->id)
-                                <form action="{{ route('post.destroy', $post) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Удалить</button>
-                                </form>
-                            @endif
-
-                            <div style="display: flex; gap: 20px;">
-                                <form action="{{ route('post.file.download', $fileName) }}" method="post">
-                                    @csrf
-
-                                    <input type="submit" value="Скачать документ" class="btn btn-dark">
-                                </form>
-
-                                <a href="{{ route('post.index') }}" class="btn btn-secondary">Назад</a>
-                            </div>
+                            <form action="{{ route('post.file.download', $fileName) }}" method="post" class="d-inline">
+                                @csrf
+                                <input type="submit" value="Скачать документ" class="btn btn-dark me-2">
+                            </form>
                         </div>
                     </div>
+                </div>
+
+                <div style="position: absolute; top: 10px; left: 10px;">
+                    <a href="{{ route('post.index') }}" class="btn btn-secondary">Назад</a>
                 </div>
 
                 @if(auth()->check() && $post->user_id !== auth()->id())
@@ -141,10 +161,10 @@
                         </div>
                     @endforeach
                 </div>
-
             </div>
         </div>
     </div>
+
     <script>
         let now = new Date();
         let year = now.getFullYear();

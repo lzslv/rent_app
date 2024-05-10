@@ -6,6 +6,12 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <script>
+        function viewOnMap(address) {
+            let url = `https://yandex.ru/maps/?text=${encodeURIComponent(address)}`;
+            window.open(url, '_blank');
+        }
+    </script>
     <title>RentApp</title>
 </head>
 <body>

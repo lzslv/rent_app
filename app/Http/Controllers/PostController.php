@@ -25,23 +25,22 @@ class PostController extends Controller
     public function store()
     {
         $data = request()->validate([
-            'title' => 'string',
-            'type' => 'string',
-            'rooms' => 'int',
-            'size' => 'int',
-            'price' => 'int',
-            'description' => 'string',
-            'picture' => 'string',
-            'file' => 'string',
-            'region' => 'string',
-            'city' => 'string',
-            'address' => 'string',
-            'landlord_email' => 'string',
-            'landlord_phone' => 'int',
+            'title' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
+            'rooms' => 'required|integer|min:1',
+            'size' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0',
+            'description' => 'required|string',
+            'file' => 'required|string|max:255',
+            'region' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'landlord_email' => 'required|email|max:255',
+            'landlord_phone' => 'required|string|max:255',
         ]);
         $data['user_id'] = auth()->id();
-        Post::create($data);
-        return redirect()->route('post.index');
+        $post = Post::create($data);
+        return redirect()->route('post.picture.create', compact('post'));
     }
 
     public function show(Post $post)
