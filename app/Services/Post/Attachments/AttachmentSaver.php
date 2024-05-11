@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Post;
+namespace App\Services\Post\Attachments;
 
 use App\Models\Picture;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Service for saving post pictures to filesystem and handling pictures records in database
+ * Service for saving post attachments to filesystem and handling records in database
  */
-final class PictureSaver
+final class AttachmentSaver
 {
     /**
-     * @param array $pictures
+     * @param array $attachments
      * @param int $postId
      * @return void
      */
-    public function save(array $pictures, int $postId): void
+    public function savePictures(array $attachments, int $postId): void
     {
         $picturesPaths = [];
 
-        foreach ($pictures as $picture) {
+        foreach ($attachments as $picture) {
             $pictureFilename = $postId . '_' .$picture->getClientOriginalName();
             Storage::putFileAs('public/pictures/', $picture, $pictureFilename);
             $picturesPaths[] = '/storage/pictures/' . $pictureFilename;
@@ -33,5 +33,17 @@ final class PictureSaver
             ['data' => $picturesPaths[1], 'main_picture' => 0, 'post_id' => $postId],
             ['data' => $picturesPaths[2], 'main_picture' => 0, 'post_id' => $postId]
         ]);
+    }
+
+    /**
+     * @param UploadedFile $document
+     * @return string
+     */
+    public function saveDocument(UploadedFile $document): string
+    {
+        $documentFileName = uniqid() . '_' . $document->getClientOriginalName();
+        Storage::putFileAs('public/documents/', $document, $documentFileName);
+
+        return 'storage/documents/' . $documentFileName;
     }
 }

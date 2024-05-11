@@ -39,8 +39,18 @@
             </div>
 
             <div class="mb-3">
-                <label for="picture" class="form-label">Ссылка на изображение</label>
-                <input type="file" name="picture" class="form-control" id="picture">
+                <label for="picture1" class="form-label">Фото 1</label>
+                <input type="file" name="picture1" class="form-control" id="file">
+            </div>
+
+            <div class="mb-3">
+                <label for="picture2" class="form-label">Фото 2</label>
+                <input type="file" name="picture2" class="form-control" id="file">
+            </div>
+
+            <div class="mb-3">
+                <label for="picture3" class="form-label">Фото 3</label>
+                <input type="file" name="picture3" class="form-control" id="file">
             </div>
 
             <div class="mb-3">

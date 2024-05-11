@@ -6,7 +6,7 @@ use App\Helpers\FilenameExtractor;
 use App\Models\Post;
 use App\Models\Review;
 use App\Models\User;
-use App\Services\Post\PictureSaver;
+use App\Services\Post\Attachments\AttachmentSaver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,13 +24,7 @@ class PostController extends Controller
         return view('post.create');
     }
 
-    public function store(Request $request, PictureSaver $pictureSaver)
-    {
-        $data = $request->except(['picture1', 'picture2', 'picture3']);
-        $picture1 = $request->file('picture1');
-        $picture2 = $request->file('picture2');
-        $picture3 = $request->file('picture3');
-
+    public function store(Request $request, AttachmentSaver $attachmentSaver,) {
         /*$data = request()->validate([
             'title' => 'required|string|max:255',
             'type' => 'required|string|max:255',
@@ -45,11 +39,14 @@ class PostController extends Controller
             'landlord_email' => 'required|email|max:255',
             'landlord_phone' => 'required|string|max:255',
         ]);*/
-
+        $data = $request->except(['picture1', 'picture2', 'picture3', 'file']);
+        $pictures = [$request->file('picture1'), $request->file('picture2'), $request->file('picture3')];
+        $document = $request->file('file');
         $data['user_id'] = auth()->id();
 
+        $data['file'] = $attachmentSaver->saveDocument($document);
         $post = Post::create($data);
-        $pictureSaver->save([$picture1, $picture2, $picture3], $post->id);
+        $attachmentSaver->savePictures($pictures, $post->id);
 
         return redirect()->route('post.index', compact('post'));
     }
