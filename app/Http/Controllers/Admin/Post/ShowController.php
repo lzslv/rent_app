@@ -11,7 +11,7 @@ class ShowController extends Controller
     {
         $name = 'Посты';
 
-        return view('admin.post.show', compact('post', 'name'));
+        return view('admin.post.show')->with('name', $name)->with('post', $post)->with('pictures', $post->pictures);
     }
 
 }

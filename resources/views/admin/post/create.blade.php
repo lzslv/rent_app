@@ -54,7 +54,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="file" class="form-label">Ссылка на PDF-файл</label>
+                <label for="file" class="form-label">PDF-документ</label>
                 <input type="file" name="file" class="form-control" id="file">
             </div>
 

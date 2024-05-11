@@ -2,9 +2,13 @@
 @section('content')
     <div class="ml-3 mr-3">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-11">
                 <div class="card">
-                    <img src="{{ url($post->picture) }}" class="card-img-top" alt="{{ $post->picture }}">
+                    <div style="display: flex; gap: 30px">
+                        @foreach ($pictures as $picture)
+                            <img src="{{ $picture->data }}" style="width: 300px; height: 250px">
+                        @endforeach
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ $post->title }}</h5>
                         <p class="card-text">Тип: {{ $post->type }}</p>

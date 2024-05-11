@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers\Admin\Post;
 use App\Http\Controllers\Controller;
-
 use App\Models\Post;
+use App\Services\Post\Attachments\DocumentSaver;
+use App\Services\Post\Attachments\AttachmentSaver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class StoreController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, AttachmentSaver $attachmentSaver)
     {
-        $name = 'Посты';
-        $postCreatingFormData = $request->all();
-
-        //dd($postCreatingFormData['picture']->getClientOriginalName());
-
         /*$data = request()->validate([
             'title' => 'string',
             'type' => 'string',
@@ -32,23 +28,17 @@ class StoreController extends Controller
             'landlord_email' => 'string',
             'landlord_phone' => 'int',
         ]);*/
+        $name = 'Посты';
+        $postCreatingFormData = $request->except(['picture1', 'picture2', 'picture3', 'file']);
 
-        $picture = $postCreatingFormData['picture'];
-        $pictureFilename = $picture->getClientOriginalName();
+        $pictures = [$request->file('picture1'), $request->file('picture2'), $request->file('picture3')];
+        $document = $request->file('file');
+        $postCreatingFormData['user_id'] = auth()->id();
 
-        $pdfFile = $postCreatingFormData['file'];
-        $pdfFilename = $pdfFile->getClientOriginalName();
-
-        Storage::putFileAs('storage/pictures/', $picture, $pictureFilename);
-        Storage::putFileAs('storage/documents/', $pdfFile, $pdfFilename);
-
-        $postCreatingFormData['picture'] = '/storage/pictures/' . $pictureFilename;
-        $postCreatingFormData['file'] = '/storage/documents/' . $pdfFilename;
-        $postCreatingFormData['user_id'] = Auth::user()->id;
-
-        Post::create($postCreatingFormData);
+        $postCreatingFormData['file'] = $attachmentSaver->saveDocument($document);
+        $post = Post::create($postCreatingFormData);
+        $attachmentSaver->savePictures($pictures, $post->id);
 
         return redirect()->route('admin.post', compact('name'));
     }
-
 }
