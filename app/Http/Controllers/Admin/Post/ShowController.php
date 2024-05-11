@@ -9,6 +9,6 @@ class ShowController extends Controller
 {
     public function __invoke(Post $post)
     {
-        return view('admin.post.show')->with('name', $name)->with('post', 'Посты')->with('pictures', $post->pictures);
+        return view('admin.post.show')->with('name', 'Посты')->with('post', $post)->with('pictures', $post->pictures);
     }
 }
