@@ -10,12 +10,15 @@
                     <div class="me-3" style="max-width: 50%;">
                         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-indicators">
-                                @foreach($post->pictures as $key => $picture)
-                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ $key }}" class="{{ $key === 0 ? 'active' : '' }}" aria-current="true" aria-label="Slide {{ $key }}"></button>
+                                @foreach ($pictures as $key => $picture)
+                                    <button type="button" data-bs-target="#carouselExampleIndicators"
+                                            data-bs-slide-to="{{ $key }}" class="{{ $key === 0 ? 'active' : '' }}"
+                                            aria-current="true" aria-label="Slide {{ $key }}">
+                                    </button>
                                 @endforeach
                             </div>
                             <div class="carousel-inner">
-                                @foreach($post->pictures as $key => $picture)
+                                @foreach ($pictures as $key => $picture)
                                     <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
                                         <img src="{{ $picture->data }}" class="d-block w-100" alt="{{ $post->title }}">
                                     </div>
@@ -52,7 +55,7 @@
                         <p>Связь: {{ $post->landlord_email }}, +{{ $post->landlord_phone }}</p>
 
                         <div class="text-center">
-                            @if($post->user_id === auth()->user()->id)
+                            @if ($post->user_id === auth()->user()->id)
                                 <div class="d-flex">
                                     <a href="{{ route('post.edit', $post) }}" class="btn btn-primary me-2">Редактировать</a>
 
@@ -61,13 +64,13 @@
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger me-2">Удалить</button>
                                     </form>
+
+                                    <form action="{{ route('post.file.download', $fileName) }}" method="post" class="d-inline">
+                                        @csrf
+                                        <input type="submit" value="Скачать документ" class="btn btn-dark me-2">
+                                    </form>
                                 </div>
                             @endif
-
-                            <form action="{{ route('post.file.download', $fileName) }}" method="post" class="d-inline">
-                                @csrf
-                                <input type="submit" value="Скачать документ" class="btn btn-dark me-2">
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -164,7 +167,12 @@
             </div>
         </div>
     </div>
-
+    <style>
+        .carousel-inner img {
+            object-fit: contain;
+            height: 50vh;
+        }
+    </style>
     <script>
         let now = new Date();
         let year = now.getFullYear();

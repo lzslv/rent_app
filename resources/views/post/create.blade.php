@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-7">
-                <form action="{{route('post.store')}}" method="post">
+                <form action="{{route('post.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="title" class="form-label">Заголовок объявления</label>
@@ -36,6 +36,21 @@
                     <div class="mb-3">
                         <label for="description" class="form-label">Описание</label>
                         <textarea type="text" name="description" class="form-control" id="description"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="picture1" class="form-label">Фото 1</label>
+                        <input type="file" name="picture1" class="form-control" id="file">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="picture2" class="form-label">Фото 2</label>
+                        <input type="file" name="picture2" class="form-control" id="file">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="picture3" class="form-label">Фото 3</label>
+                        <input type="file" name="picture3" class="form-control" id="file">
                     </div>
 
                     <div class="mb-3">

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FilenameExtractor;
 use App\Models\Post;
 use App\Models\Review;
 use App\Models\User;
+use App\Services\Post\PictureSaver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,9 +24,14 @@ class PostController extends Controller
         return view('post.create');
     }
 
-    public function store()
+    public function store(Request $request, PictureSaver $pictureSaver)
     {
-        $data = request()->validate([
+        $data = $request->except(['picture1', 'picture2', 'picture3']);
+        $picture1 = $request->file('picture1');
+        $picture2 = $request->file('picture2');
+        $picture3 = $request->file('picture3');
+
+        /*$data = request()->validate([
             'title' => 'required|string|max:255',
             'type' => 'required|string|max:255',
             'rooms' => 'required|integer|min:1',
@@ -37,20 +44,27 @@ class PostController extends Controller
             'address' => 'required|string|max:255',
             'landlord_email' => 'required|email|max:255',
             'landlord_phone' => 'required|string|max:255',
-        ]);
+        ]);*/
+
         $data['user_id'] = auth()->id();
+
         $post = Post::create($data);
-        return redirect()->route('post.picture.create', compact('post'));
+        $pictureSaver->save([$picture1, $picture2, $picture3], $post->id);
+
+        return redirect()->route('post.index', compact('post'));
     }
 
-    public function show(Post $post)
+    public function show(Post $post, FilenameExtractor $filenameExtractor)
     {
-        $filePathExploded = explode('/', $post->file);
-        $fileName = end($filePathExploded);
+        $filename = $filenameExtractor->extract($post->file);
         $reviews = Review::where('post_id', $post->id)->get();
-        $averageRating = $reviews->avg('rating');
 
-        return view('post.show', compact('post', 'fileName', 'reviews', 'averageRating'));
+        return view('post.show')
+            ->with('post', $post)
+            ->with('fileName', $filename)
+            ->with('reviews', $reviews)
+            ->with('averageRating', $reviews->avg('rating'))
+            ->with('pictures', $post->pictures);
     }
 
     public function edit(Post $post)
