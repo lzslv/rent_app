@@ -3,11 +3,9 @@
     <div class="ml-3 mr-3">
         <h3>Редактировать</h3>
 
-        <form action="{{ route('admin.post.update', $post )}}" method="post">
+        <form action="{{ route('admin.post.update', $post )}}" method="post" enctype="multipart/form-data">
             @csrf
             @method('patch')
-
-
 
             <div class="mb-3">
                 <label for="title" class="form-label">Заголовок объявления</label>
@@ -41,13 +39,23 @@
             </div>
 
             <div class="mb-3">
-                <label for="picture" class="form-label">Ссылка на изображение</label>
-                <input type="text" name="picture" class="form-control" id="picture" value="{{ $post->picture }}">
+                <label for="picture1" class="form-label">Фото 1</label>
+                <input type="file" name="picture1" class="form-control" id="file">
             </div>
 
             <div class="mb-3">
-                <label for="file" class="form-label">Ссылка на PDF-файл</label>
-                <input type="text" name="file" class="form-control" id="file" value="{{ $post->file }}">
+                <label for="picture2" class="form-label">Фото 2</label>
+                <input type="file" name="picture2" class="form-control" id="file">
+            </div>
+
+            <div class="mb-3">
+                <label for="picture3" class="form-label">Фото 3</label>
+                <input type="file" name="picture3" class="form-control" id="file">
+            </div>
+
+            <div class="mb-3">
+                <label for="file" class="form-label">PDF-документ</label>
+                <input type="file" name="file" class="form-control" id="file">
             </div>
 
             <div class="mb-3">
