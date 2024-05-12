@@ -3,17 +3,16 @@
     <div class="mt-4 mb-4 text-center"><h4>Весь список объявлений</h4></div>
     <div class="container">
         <div class="row">
-            @foreach($recommendedPosts as $post)
+            @foreach ($recommendedPosts as $post)
                 <div class="col-md-6 col-lg-4 mb-4">
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
-                            <div class="text-center">
-                                <img class="img-fluid"
-                                     src="{{ url($post->picture) }}"
-                                     alt="Фото"
-                                     style="height: 40vh; object-fit: cover;">
+                            <div>
+                                <img
+                                    src="{{ $picture = $post->pictures()->first()?->data }}"
+                                    style="width: 330px; height: 200px"
+                                >
                             </div>
-
                             <h3 class="profile-username text-center">{{ $post->title }}</h3>
                             <p class="text-muted text-center">{{ $post->description }}</p>
                             <ul class="list-group list-group-unbordered mb-3">
