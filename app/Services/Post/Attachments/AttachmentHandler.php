@@ -12,18 +12,18 @@ use Illuminate\Support\Facades\Storage;
 /**
  * Service for saving post attachments to filesystem and handling records in database
  */
-final class AttachmentSaver
+final class AttachmentHandler
 {
     /**
      * @param array $attachments
      * @param int $postId
      * @return void
      */
-    public function savePictures(array $attachments, int $postId): void
+    public function savePictures(array $pictures, int $postId): void
     {
         $picturesPaths = [];
 
-        foreach ($attachments as $picture) {
+        foreach ($pictures as $picture) {
             $pictureFilename = $postId . '_' .$picture->getClientOriginalName();
             Storage::putFileAs('public/pictures/', $picture, $pictureFilename);
             $picturesPaths[] = '/storage/pictures/' . $pictureFilename;
@@ -46,6 +46,40 @@ final class AttachmentSaver
         Storage::putFileAs('public/documents/', $document, $documentFileName);
 
         return 'storage/documents/' . $documentFileName;
+    }
+
+    /**
+     * @param array $updatedPictures
+     * @param int $postId
+     * @return void
+     */
+    public function updatePictures(array $updatedPictures, int $postId): void
+    {
+        $pictures = Picture::where('post_id', $postId)->get();
+
+        foreach ($updatedPictures as $key => $updatedPicture) {
+            if ($updatedPicture) {
+                $filePathExploded = explode('/', $pictures[$key]->data);
+                $fileName = end($filePathExploded);
+
+                Storage::putFileAs('public/pictures/', $updatedPicture, $fileName);
+            }
+        }
+    }
+
+    /**
+     * @param string $documentPath
+     * @param UploadedFile|null $document
+     * @return void
+     */
+    public function updateDocument(string $documentPath, ?UploadedFile $document = null)
+    {
+        if ($document) {
+            $filePathExploded = explode('/', $documentPath);
+            $fileName = end($filePathExploded);
+
+            Storage::putFileAs('public/documents/', $document, $fileName);
+        }
     }
 
     /**

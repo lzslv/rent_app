@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Admin\Post;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
-use App\Services\Post\Attachments\DocumentSaver;
-use App\Services\Post\Attachments\AttachmentSaver;
+use App\Services\Post\Attachments\AttachmentHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class StoreController extends Controller
 {
-    public function __invoke(Request $request, AttachmentSaver $attachmentSaver)
+    public function __invoke(Request $request, AttachmentHandler $attachmentHandler)
     {
         /*$data = request()->validate([
             'title' => 'string',
@@ -35,9 +34,9 @@ class StoreController extends Controller
         $document = $request->file('file');
         $postCreatingFormData['user_id'] = auth()->id();
 
-        $postCreatingFormData['file'] = $attachmentSaver->saveDocument($document);
+        $postCreatingFormData['file'] = $attachmentHandler->saveDocument($document);
         $post = Post::create($postCreatingFormData);
-        $attachmentSaver->savePictures($pictures, $post->id);
+        $attachmentHandler->savePictures($pictures, $post->id);
 
         return redirect()->route('admin.post', compact('name'));
     }

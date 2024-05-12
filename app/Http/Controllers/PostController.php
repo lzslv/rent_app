@@ -6,7 +6,7 @@ use App\Helpers\FilenameExtractor;
 use App\Models\Post;
 use App\Models\Review;
 use App\Models\User;
-use App\Services\Post\Attachments\AttachmentSaver;
+use App\Services\Post\Attachments\AttachmentHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,7 +24,7 @@ class PostController extends Controller
         return view('post.create');
     }
 
-    public function store(Request $request, AttachmentSaver $attachmentSaver,) {
+    public function store(Request $request, AttachmentHandler $attachmentHandler) {
         /*$data = request()->validate([
             'title' => 'required|string|max:255',
             'type' => 'required|string|max:255',
@@ -39,14 +39,15 @@ class PostController extends Controller
             'landlord_email' => 'required|email|max:255',
             'landlord_phone' => 'required|string|max:255',
         ]);*/
+
         $data = $request->except(['picture1', 'picture2', 'picture3', 'file']);
         $pictures = [$request->file('picture1'), $request->file('picture2'), $request->file('picture3')];
         $document = $request->file('file');
         $data['user_id'] = auth()->id();
 
-        $data['file'] = $attachmentSaver->saveDocument($document);
+        $data['file'] = $attachmentHandler->saveDocument($document);
         $post = Post::create($data);
-        $attachmentSaver->savePictures($pictures, $post->id);
+        $attachmentHandler->savePictures($pictures, $post->id);
 
         return redirect()->route('post.index', compact('post'));
     }
@@ -69,9 +70,9 @@ class PostController extends Controller
         return view('post.edit', compact('post'));
     }
 
-    public function update(Post $post)
+    public function update(Post $post, Request $request, AttachmentHandler $attachmentHandler)
     {
-        $data = request()->validate([
+        /*$data = request()->validate([
             'title' => 'string',
             'type' => 'string',
             'rooms' => 'int',
@@ -85,16 +86,23 @@ class PostController extends Controller
             'address' => 'string',
             'landlord_email' => 'string',
             'landlord_phone' => 'int',
-        ]);
+        ]);*/
+        $data = $request->except(['picture1', 'picture2', 'picture3', 'file']);
+        $pictures = [$request->file('picture1'), $request->file('picture2'), $request->file('picture3')];
+        $document = $request->file('file');
+
+        $attachmentHandler->updatePictures($pictures, $post->id);
+        $attachmentHandler->updateDocument($post->file, $document);
+
         $data['user_id'] = auth()->id();
         $post->update($data);
         return redirect()->route('post.show', $post);
     }
 
-    public function destroy(Post $post, AttachmentSaver $attachmentSaver)
+    public function destroy(Post $post, AttachmentHandler $attachmentHandler)
     {
-        $attachmentSaver->deletePictures($post);
-        $attachmentSaver->deleteDocument($post->file);
+        $attachmentHandler->deletePictures($post);
+        $attachmentHandler->deleteDocument($post->file);
         $post->delete();
 
         return redirect()->route('post.index');
