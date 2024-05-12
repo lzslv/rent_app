@@ -91,9 +91,12 @@ class PostController extends Controller
         return redirect()->route('post.show', $post);
     }
 
-    public function destroy(Post $post)
+    public function destroy(Post $post, AttachmentSaver $attachmentSaver)
     {
+        $attachmentSaver->deletePictures($post);
+        $attachmentSaver->deleteDocument($post->file);
         $post->delete();
+
         return redirect()->route('post.index');
     }
 

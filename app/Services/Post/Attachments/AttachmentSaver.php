@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Post\Attachments;
 
 use App\Models\Picture;
+use App\Models\Post;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -45,5 +46,28 @@ final class AttachmentSaver
         Storage::putFileAs('public/documents/', $document, $documentFileName);
 
         return 'storage/documents/' . $documentFileName;
+    }
+
+    /**
+     * @param Post $post
+     * @return void
+     */
+    public function deletePictures(Post $post): void
+    {
+        $pictures = Picture::where('post_id', $post->id)->get();
+
+        foreach ($pictures as $picture) {
+            Storage::delete(str_replace('storage', 'public', $picture->data));
+            $picture->delete();
+        }
+    }
+
+    /**
+     * @param string $filepath
+     * @return void
+     */
+    public function deleteDocument(string $filepath): void
+    {
+        Storage::delete(str_replace('storage', 'public', $filepath));
     }
 }
