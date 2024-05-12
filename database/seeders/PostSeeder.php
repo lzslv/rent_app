@@ -53,6 +53,42 @@ class PostSeeder extends Seeder
                 'is_published' => 1,
                 'created_at' => '2024-04-08'
             ],
+            [
+                'title' => 'Однокомнатная квартира 1',
+                'type' => 'Квартира',
+                'rooms' => 1,
+                'size' => 70,
+                'price' => 240,
+                'description' => Str::random(15),
+                'file' => 'http://localhost/storage/documents/test1.pdf',
+                'region' => 'Минск',
+                'city' => 'Минск',
+                'address' => 'Test address123',
+                'landlord_email' => 'landlord345@gmail.com',
+                'landlord_phone' => '+375(29)1111111',
+                'likes' => 8,
+                'user_id' => 3,
+                'is_published' => 1,
+                'created_at' => '2024-04-08'
+            ],
+            [
+                'title' => 'Однокомнатная квартира 2',
+                'type' => 'Квартира',
+                'rooms' => 1,
+                'size' => 85,
+                'price' => 265,
+                'description' => Str::random(15),
+                'file' => 'http://localhost/storage/documents/test1.pdf',
+                'region' => 'Минск',
+                'city' => 'Минск',
+                'address' => 'New test address',
+                'landlord_email' => 'landlordNes@gmail.com',
+                'landlord_phone' => '+375(29)0000000',
+                'likes' => 15,
+                'user_id' => 3,
+                'is_published' => 1,
+                'created_at' => '2024-04-08'
+            ],
         ]);
     }
 }

@@ -19,7 +19,7 @@ class AppointmentSeeder extends Seeder
             [
                 'date' => '2024-04-29',
                 'note' => 'Заявка на просмотр',
-                'user_id' => 2,
+                'user_id' => 1,
                 'post_id' => 3,
                 'approved' => 1
             ],

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\FilenameExtractor;
+use App\Models\Picture;
 use App\Models\Post;
 use App\Models\Review;
 use App\Models\User;
 use App\Services\Post\Attachments\AttachmentHandler;
+use App\Services\Post\Recommendation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -139,10 +141,28 @@ class PostController extends Controller
         return back(); // Temporary realization
     }
 
-    public function recommendations()
+    public function recommendations(Recommendation $recommendation)
     {
-        $recommendedPosts = Post::get();
+        $recommendedPosts = Post::with('pictures')->get();
+        dd($recommendation->get());
 
-        return view('home.recommendations')->with('name', 'Рекомендации')->with('recommendedPosts', $recommendedPosts);
+        /*if ($preferences->isEmpty()) {
+            return Post::orderBy('likes')->limit(3)->get();
+        }
+
+        $recommendations = Post::where('rooms', $preferences[0]->rooms)
+            ->where('type', $preferences[0]->type)
+            ->whereDoesntHave('appointments', function (Builder $query) {
+                $query->where('user_id', Auth::user()->id);
+            })
+            ->whereBetween('size', [$preferences[0]->size - 25, $preferences[0]->size + 25])
+            ->whereBetween('price', [$preferences[0]->price - 50, $preferences[0]->price + 50])
+            ->get();
+
+        return $recommendations;*/
+
+        return view('home.recommendations')
+            ->with('name', 'Рекомендации')
+            ->with('recommendedPosts', $recommendedPosts);
     }
 }
